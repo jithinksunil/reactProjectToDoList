@@ -4,6 +4,12 @@ import {useState} from "react"
 function App() {
   const [toDos,setToDos]=useState([])
   const [toDo,setToDo]=useState('')
+  const [edit,setEdit]=useState('')
+  
+  function editInputBox(item){
+    setEdit(item)
+    setToDo(item.task)
+  }
   return (
     <div className="app">
     <div className="mainHeading">
@@ -25,18 +31,27 @@ function App() {
           return (
             <div className="todo">
               <div className="left">
-                <input 
+
+              <input 
                   value={item.status}
-                  onChange={(event)=>{
-                      item.status=!item.status
-                      console.log(event.target.checked)
-                      console.log(toDos)
-                    }
-                  }  
-                  type="checkbox" name="" id="" />
+                  type="checkbox" name="" id="" 
+                />
                 <p>{item.task}</p>
               </div>
               <div className="right">
+                <i 
+                  class="fa-regular fa-pen-to-square"
+                  onClick={()=>{editInputBox(item)}}
+                ></i>
+                <i 
+                  class="fa-solid fa-check"
+                  onClick={()=>{
+                        item.status=!item.status
+                        console.log(item.status)
+                      }
+                    }  
+                    >
+                </i>
                 <i 
                   onClick={()=>{
                       setToDos(toDos.filter((itemNotToDelete)=>itemNotToDelete.id!==item.id))
