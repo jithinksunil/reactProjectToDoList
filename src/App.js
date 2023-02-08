@@ -5,10 +5,11 @@ function App() {
   const [toDos,setToDos]=useState([])
   const [toDo,setToDo]=useState('')
   const [edit,setEdit]=useState('')
-  
+
   function editInputBox(item){
     setEdit(item)
     setToDo(item.task)
+    setToDos(toDos.filter((itemNotToUpdate)=>itemNotToUpdate.id!==item.id))
   }
   return (
     <div className="app">
@@ -22,7 +23,7 @@ function App() {
     <div className="todos">
       <div className="input">
         <input value={toDo} onChange={(event)=>{setToDo(event.target.value)}} type="text" placeholder="🖊️ Add item..." />
-        <i onClick={()=>{setToDos([...toDos,{id:Date.now(),task:toDo,status:true}])}} className="fas fa-plus"></i>
+        <i onClick={()=>{setToDos([...toDos,{id:Date.now(),task:toDo,status:false}])}} className="fas fa-plus"></i>
       </div>
     </div>
     <div className="todos">
@@ -31,12 +32,7 @@ function App() {
           return (
             <div className="todo">
               <div className="left">
-
-              <input 
-                  value={item.status}
-                  type="checkbox" name="" id="" 
-                />
-                <p>{item.task}</p>
+                <p style={{textDecoration:item.status?'line-through red':''}}>{item.task}</p>
               </div>
               <div className="right">
                 <i 
@@ -46,11 +42,11 @@ function App() {
                 <i 
                   class="fa-solid fa-check"
                   onClick={()=>{
-                        item.status=!item.status
-                        console.log(item.status)
+                      item.status=!item.status
+                        setToDos([...toDos])
                       }
                     }  
-                    >
+                >
                 </i>
                 <i 
                   onClick={()=>{
